@@ -61,7 +61,7 @@ $lista_rubrica = $rubrica->getRubrica();
     <link rel="stylesheet" type="text/css" href="css/styles.css" />
 </head>
 <body>
-    <header>
+    <header class="utenti-header">
         <div class="strato1">
             <div class="strato2">
                 <h1>Lapiary _ </h1>

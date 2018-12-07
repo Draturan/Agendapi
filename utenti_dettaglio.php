@@ -67,7 +67,7 @@ $avvisi = array("errori"=>$errori,"successi"=>$successi);
     <script type="text/javascript" src="js/controllo_utente.js"></script>
 </head>
 <body>
-    <header>
+    <header class="utenti-header">
         <div class="strato1">
             <div class="strato2">
                 <h1>Lapiary _ </h1>
@@ -90,7 +90,7 @@ $avvisi = array("errori"=>$errori,"successi"=>$successi);
                 <?php endforeach; endif; endforeach; endif; ?>
             </article>
             <article>
-                <form class="form_utente" action="utenti_dettaglio.php<?= ($mode == "modifica" && isset($utente_mod)) ? "?mode=modifica&id=".$utente_mod->id : null ?>" name="utente_post" method="post" onsubmit="return ControllaForm(this)">
+                <form class="form form-utente" action="utenti_dettaglio.php<?= ($mode == "modifica" && isset($utente_mod)) ? "?mode=modifica&id=".$utente_mod->id : null ?>" name="utente_post" method="post" onsubmit="return ControllaForm(this)">
                     <div class="form_title">
                         <h3><?= $mode == "modifica" ? "Modifica" : "Inserisci" ?> i dati</h3>
                     </div>
@@ -98,38 +98,38 @@ $avvisi = array("errori"=>$errori,"successi"=>$successi);
                         <div class="anagrafiche">
                             <?= (isset($utente_mod)) ? '<input style="visibility:hidden;position:absolute" name="id" Value="'.$utente_mod->id.'"/>' : null?>
                             <label>Nome</label>
-                            <input type="text" class="input_utente" name="nome" placeholder="es. Mario" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->nome.'"' : null?> onblur="ControlloImmediato(this);" required />
+                            <input type="text" class="input" name="nome" placeholder="es. Mario" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->nome.'"' : null?> onblur="ControlloImmediato(this);" required />
                             <label>Cognome</label>
-                            <input type="text" class="input_utente" name="cognome" placeholder="es. Rossi" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->cognome.'"' : null?> onblur="ControlloImmediato(this);" required />
+                            <input type="text" class="input" name="cognome" placeholder="es. Rossi" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->cognome.'"' : null?> onblur="ControlloImmediato(this);" required />
                             <label>Data di nascita</label>
-                            <input type="date" class="input_utente" name="datanascita" placeholder="Data di nascita" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->data_di_nascita.'"' : null?> onblur="ControlloImmediato(this);" required />
+                            <input type="date" class="input" name="datanascita" placeholder="Data di nascita" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->data_di_nascita.'"' : null?> onblur="ControlloImmediato(this);" required />
                             <label>CAP</label>
-                            <input type="text" class="input_utente" name="cap" placeholder="es. 00100" maxlength="5" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->cap.'"' : null?> onblur="ControlloImmediato(this);" required />
+                            <input type="text" class="input" name="cap" placeholder="es. 00100" maxlength="5" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->cap.'"' : null?> onblur="ControlloImmediato(this);" required />
                             <label>E-mail</label>
-                            <input type="email" class="input_utente" name="email" placeholder="es. mario.rossi@gmail.com" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->email.'"' : null?> onblur="ControlloImmediato(this);" required />
+                            <input type="email" class="input" name="email" placeholder="es. mario.rossi@gmail.com" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->email.'"' : null?> onblur="ControlloImmediato(this);" required />
                         </div>
                         <div class="telefono">
                             <label>Recapito #1</label>
                             <div class="input_inline">
-                                <input type="text" class="input_utente" name="tipo1" placeholder="Tipo" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[0]['tipo'].'"' : null?> onblur="ControlloImmediato(this)" />
-                                <input type="tel" class="input_utente" name="telefono1" placeholder="es. 0212312345" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[0]['telefono'].'"' : null?> onblur="ControlloImmediato(this)" />
+                                <input type="text" class="input" name="tipo1" placeholder="Tipo" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[0]['tipo'].'"' : null?> onblur="ControlloImmediato(this)" />
+                                <input type="tel" class="input" name="telefono1" placeholder="es. 0212312345" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[0]['telefono'].'"' : null?> onblur="ControlloImmediato(this)" />
                                 <?= (isset($utente_mod)) ? '<input style="visibility:hidden;position:absolute" name="num_id1" Value="'.$utente_mod->num_telefono[0]['num_id'].'"/>' : null?>
                             </div>
                             <label>Recapito #2</label>
                             <div class="input_inline">
-                                <input type="text" class="input_utente" name="tipo2" placeholder="Tipo" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[1]['tipo'].'"' : null?> onblur="ControlloImmediato(this)" />
-                                <input type="tel" class="input_utente" name="telefono2" placeholder="es. 0212312345" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[1]['telefono'].'"' : null?> onblur="ControlloImmediato(this)" />
+                                <input type="text" class="input" name="tipo2" placeholder="Tipo" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[1]['tipo'].'"' : null?> onblur="ControlloImmediato(this)" />
+                                <input type="tel" class="input" name="telefono2" placeholder="es. 0212312345" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[1]['telefono'].'"' : null?> onblur="ControlloImmediato(this)" />
                                 <?= (isset($utente_mod)) ? '<input style="visibility:hidden;position:absolute" name="num_id2" Value="'.$utente_mod->num_telefono[1]['num_id'].'"/>' : null?>
                             </div>
                             <label>Recapito #3</label>
                             <div class="input_inline">
-                                <input type="text" class="input_utente" name="tipo3" placeholder="Tipo" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[2]['tipo'].'"' : null?> onblur="ControlloImmediato(this)" />
-                                <input type="tel" class="input_utente" name="telefono3" placeholder="es. 0212312345" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[2]['telefono'].'"' : null?> onblur="ControlloImmediato(this)" />
+                                <input type="text" class="input" name="tipo3" placeholder="Tipo" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[2]['tipo'].'"' : null?> onblur="ControlloImmediato(this)" />
+                                <input type="tel" class="input" name="telefono3" placeholder="es. 0212312345" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[2]['telefono'].'"' : null?> onblur="ControlloImmediato(this)" />
                                 <?= (isset($utente_mod)) ? '<input style="visibility:hidden;position:absolute" name="num_id3" Value="'.$utente_mod->num_telefono[2]['num_id'].'"/>' : null?>
                             </div>
                         </div>
                     </div>
-                    <input type="submit" class="submit_utente" name="submit" value="Invia" />
+                    <input type="submit" class="submit submit-utente" name="submit" value="Invia" />
                 </form>
             </article>
         </section>
@@ -137,4 +137,5 @@ $avvisi = array("errori"=>$errori,"successi"=>$successi);
     <footer>
         <p class="piccolino">Lapiary - 2018</p>
     </footer>
-
+</body>
+</html>

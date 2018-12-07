@@ -40,7 +40,7 @@ class Utente{
     const ERR_DEL_TELEFONI = 109;
     const ERR_DEL_TELEFONI_MES = "L'eliminazione dei numeri di telefono ha riscontrato qualche problema";
     const ERR_DATI_UTENTE = 104;
-    const ERR_DATI_UTENTE_MES = "Uno o più campi obbligatori è stato omesso o è errato, ricontrolla";
+    const ERR_DATI_UTENTE_MES = "Uno o più campi obbligatori sono stati omessi o sono errati, ricontrolla";
     const ERR_EMAIL_UTENTE = 105;
     const ERR_EMAIL_UTENTE_MES = "La tua email non sembra essere corretta, ricontrolla di averla scritta bene";
 
@@ -219,7 +219,7 @@ class Utente{
     }
 
     /**
-     * Funzione di delete degli utenti non implementata
+     * Funzione di delete degli utenti
      *
      * @return null
      */
@@ -243,7 +243,6 @@ class Utente{
             return array(Utente::SUCCESSO => array(Utente::SUCC_DEL_UTENTE=>Utente::SUCC_DEL_UTENTE_MES));
         }else{
             // e in caso di fallimento restituisco l'errore
-            //            print_r($ins_cont->error_info);
             return array(Utente::ERRORE => array(Utente::ERR_DEL_UTENTE=>Utente::ERR_DEL_UTENTE_MES));
 
         }

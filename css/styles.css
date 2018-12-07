@@ -15,12 +15,23 @@ header{
     display: inline-flex;
     width: 100%;
     height: 150px;
-    background: url(../img/rubrica.jpg) no-repeat right center;
     color: white;
-    background-size: cover;
     align-items: center;
-
+    background: url(../img/ape_libro.png) no-repeat right center;
+    background-size: cover;
 }
+    header.utenti-header{
+        background: url(../img/rubrica.png) no-repeat right center;
+        background-size: cover;
+    }
+    header.libri-header{
+        background: url(../img/libreria.jpg) no-repeat right center;
+        background-size: cover;
+    }
+    header.prestiti-header{
+        background: url(../img/prestito.png) no-repeat right center;
+        background-size: cover;
+    }
     header h1,
     header h2{
         text-shadow: 1px 1px 1px black;
@@ -49,8 +60,16 @@ header{
                 font-size: 20px;
                 padding: 20px 0 0 0;
             }
-                header .strato2 h2 a{
+                header.utenti-header .strato2 h2 a{
                     color: #6797ef;
+                    text-decoration: none;
+                }
+                header.libri-header .strato2 h2 a{
+                    color: #7ccf6c;
+                    text-decoration: none;
+                }
+                header.prestiti-header .strato2 h2 a{
+                    color: #f3c66a;
                     text-decoration: none;
                 }
 footer{
@@ -108,7 +127,7 @@ footer{
                     border-color: #7ccf6c;
                 }
                 .container#menu article a#prestiti{
-                    border-color: #ffd172;
+                    border-color: #f3c66a;
                 }
                 .container#menu article img{
                     width: 100px;
@@ -143,50 +162,101 @@ footer{
             display: flex;
             flex-direction: row-reverse;
         }
-            .container .sopra-lista p.aggiungi_utente a{
+            .container .sopra-lista p.aggiungi_utente a,
+            .container .sopra-lista p.aggiungi_libro a,
+            .container .sopra-lista p.aggiungi_prestito a {
                 text-decoration: none;
                 #color: inherit;
                 padding: 10px 18px;
-                border: 4px solid #557bce;
                 background-color: white;
                 color: black;
                 transition: all 0.8s ease 0s;
             }
-            .container .sopra-lista p a:hover{
+            .container .sopra-lista p.aggiungi_utente a{
+                border: 4px solid #557bce;
+            }
+            .container .sopra-lista p.aggiungi_libro a {
+                border: 4px solid #7ccf6c;
+            }
+            .container .sopra-lista p.aggiungi_prestito a {
+                border: 4px solid #f3c66a;
+            }
+            .container .sopra-lista p.aggiungi_utente a:hover{
                 background-color: rgba(85, 123, 206, 0.4);
                 #color: white;
             }
+            .container .sopra-lista p.aggiungi_libro a:hover {
+                background-color: rgba(124, 207, 108, 0.4);
+                #color: white;
+            }
+            .container .sopra-lista p.aggiungi_prestito a:hover {
+                background-color: rgba(243, 198, 106, 0.4);
+                #color: white;
+            }
+
     .container .lista-utenti{
 
     }
-    .lista-utenti .utente{
+    .lista-utenti .utente,
+    .lista-utenti .libro,
+    .lista-utenti .prestito{
         font-size: 12px;
     }
     .lista-utenti .utente-header{
         background-color: #557bce;
         color:white;
     }
+    .lista-utenti .libro-header{
+        background-color: #7ccf6c;
+        color:white;
+    }
+    .lista-utenti .prestito-header{
+        background-color: #f3c66a;
+        color:white;
+    }
     .lista-utenti .utente:nth-child(2n+1){
         background-color: rgba(85, 123, 206,0.2);
     }
+    .lista-utenti .libro:nth-child(2n+1){
+        background-color: rgba(124, 207, 108, 0.2);
+    }
+    .lista-utenti .prestito:nth-child(2n+1){
+        background-color: rgba(124, 207, 108, 0.2);
+    }
         .lista-utenti .utente .utente-dati,
-        .lista-utenti .utente-header .utente-dati{
+        .lista-utenti .utente-header .utente-dati,
+        .lista-utenti .libro .libro-dati,
+        .lista-utenti .libro-header .libro-dati,
+        .lista-utenti .prestito .prestito-dati,
+        .lista-utenti .prestito-header .prestito-dati{
             display: flex;
             align-items: center;
             padding:10px;
         }
         .lista-utenti .utente .utente-dati > *,
-        .lista-utenti .utente-header .utente-dati > *{
+        .lista-utenti .utente-header .utente-dati > *,
+        .lista-utenti .libro .libro-dati > *,
+        .lista-utenti .libro-header .libro-dati > *,
+        .lista-utenti .prestito .prestito-dati > *,
+        .lista-utenti .prestito-header .prestito-dati > *{
             width: 30%;
         }
-        .lista-utenti .utente .utente-dati > *{
+        .lista-utenti .utente .utente-dati > *,
+        .lista-utenti .libro .libro-dati > *,
+        .lista-utenti .prestito .prestito-dati > *{
             padding: 5px;
         }
-        .lista-utenti .utente-header .utente-dati > *{
+        .lista-utenti .utente-header .utente-dati > *,
+        .lista-utenti .libro-header .libro-dati > *,
+        .lista-utenti .prestito-header .prestito-dati > *{
             padding: 10px 5px;
         }
         .lista-utenti .utente .utente-dati .utente-img,
-        .lista-utenti .utente-header .utente-dati .intest-img{
+        .lista-utenti .utente-header .utente-dati .intest-img,
+        .lista-utenti .libro .libro-dati .libro-img,
+        .lista-utenti .libro-header .libro-dati .intest-img,
+        .lista-utenti .prestito .prestito-dati .prestito-img,
+        .lista-utenti .prestito-header .prestito-dati .intest-img{
             width: 45px;
         }
 
@@ -195,55 +265,90 @@ footer{
             width: 25px;
             transition: all 0.5s ease-out 0s;
         }
-        .lista-utenti .utente .utente-dati .frecciattiva{
+        .lista-utenti .libro .libro-dati .libro-arrow,
+        .lista-utenti .libro-header .libro-dati .intest-arrow{
+            width: 120px;
+            transition: all 0.5s ease-out 0s;
+        }
+        .lista-utenti .prestito .prestito-dati .prestito-arrow,
+        .lista-utenti .prestito-header .prestito-dati .intest-arrow{
+            width: 155px;
+            transition: all 0.5s ease-out 0s;
+        }
+        .lista-utenti .utente .utente-dati .frecciattiva,
+        .lista-utenti .libro .libro-dati .frecciattiva,
+        .lista-utenti .prestito .prestito-dati .frecciattiva{
             transform: rotate(-180deg);
         }
-        .lista-utenti .utente div.utente-info{
+        .lista-utenti .utente div.utente-info,
+        .lista-utenti .libro div.libro-info,
+        .lista-utenti .prestito div.prestito-info{
             transition: all 0.8s ease 0s;
             overflow: hidden;
             height: 0;
             padding: 0 15px;
             align-items: center;
         }
-        .lista-utenti .utente div.updates-info-active{
+        .lista-utenti .utente div.updates-info-active,
+        .lista-utenti .libro div.updates-info-active,
+        .lista-utenti .prestito div.updates-info-active{
             box-sizing: border-box;
             height: 100px;
             overflow: hidden;
             padding: 8px 15px;
         }
-        .lista-utenti .utente div.utente-info h3{
+        .lista-utenti .utente div.utente-info h3,
+        .lista-utenti .libro div.libro-info h3,
+        .lista-utenti .prestito div.prestito-info h3{
             margin:10px;
         }
-        .lista-utenti .utente div.utente-info .contenitore-inliner{
+        .lista-utenti .utente div.utente-info .contenitore-inliner,
+        .lista-utenti .libro div.libro-info .contenitore-inliner,
+        .lista-utenti .prestito div.prestito-info .contenitore-inliner{
             width:100%;
             display: flex;
         }
-        .lista-utenti .utente div.utente-info .contenitore-inliner .contenitore-info{
+        .lista-utenti .utente div.utente-info .contenitore-inliner .contenitore-info,
+        .lista-utenti .libro div.libro-info .contenitore-inliner .contenitore-info,
+        .lista-utenti .prestito div.prestito-info .contenitore-inliner .contenitore-info{
             width:100%;
             display: flex;
         }
-        .lista-utenti .utente div.utente-info .contenitore-inliner .contenitore-info div{
+        .lista-utenti .utente div.utente-info .contenitore-inliner .contenitore-info div,
+        .lista-utenti .libro div.libro-info .contenitore-inliner .contenitore-info div,
+        .lista-utenti .prestito div.prestito-info .contenitore-inliner .contenitore-info div{
             padding-left: 30px;
         }
-        .lista-utenti .utente div.utente-info a{
+        .lista-utenti .utente div.utente-info a,
+        .lista-utenti .libro div.libro-dati a,
+        .lista-utenti .prestito div.prestito-dati a{
             margin-right: 10px;
+            width: auto;
         }
         .lista-utenti .utente div.utente-info .edit_img,
-        .lista-utenti .utente div.utente-info .del_img{
+        .lista-utenti .utente div.utente-info .del_img,
+        .lista-utenti .libro div.libro-dati .edit_img,
+        .lista-utenti .libro div.libro-dati .del_img,
+        .lista-utenti .prestito div.prestito-dati .edit_img,
+        .lista-utenti .prestito div.prestito-dati .del_img{
             width: 30px;
             color: #ffb351;
         }
 
-    .no_utenti{
+    .no_utenti,
+    .no_libri,
+    .no_prestiti{
         text-align: center;
         color: #5a5a5a;
     }
-        .no_utenti img{
+        .no_utenti img,
+        .no_libri img{
             width: 100px;
             margin: 30px auto;
             display: block;
         }
-        .no_utenti h2{
+        .no_utenti h2,
+        .no_libri h2{
             margin: 10px 0;
         }
 
@@ -383,67 +488,95 @@ footer{
 }
 .container .sopra-form p.torna_lista a{
     text-decoration: none;
-    #color: inherit;
     padding: 10px 18px;
     border: 4px solid #557bce;
     background-color: white;
     color: black;
     transition: all 0.8s ease 0s;
 }
+.container.bcol-libri .sopra-form p.torna_lista a{
+    border: 4px solid #7ccf6c;
+}
+.container.bcol-prestiti .sopra-form p.torna_lista a{
+    border: 4px solid #f3c66a;
+}
 .container .sopra-form p.torna_lista a:hover{
     background-color: rgba(85, 123, 206, 0.4);
-    #color: white;
 }
-.form_utente{
+.container.bcol-libri .sopra-form p.torna_lista a:hover{
+    background-color: rgba(124, 207, 108, 0.4);
+}
+.container.bcol-prestiti .sopra-form p.torna_lista a:hover{
+    background-color: rgba(243, 198, 106, 0.4);
+}
+.form{
     margin: 10px;
 
 }
-.form_utente .form_title{
-    width:100%;
-    background-color: #557bce;
-    color:white;
-}
-.form_utente .form_title h3{
-    padding: 15px;
-}
+    .form .form_title{
+        width:100%;
+        color:white;
+    }
+        .form.form-utente .form_title{
+            background-color: #557bce;
+        }
+        .form.form-libro .form_title{
+            background-color: #7ccf6c;
+        }
+        .form.form-prestito .form_title{
+            background-color: #f3c66a;
+        }
+        .form .form_title h3{
+            padding: 15px;
+        }
 
-.form_utente .form_input{
-    display: flex;
-}
-.form_utente .form_input > div{
-    margin: 0 10px;
-    width:100%;
-}
-.form_utente .form_input .input_inline{
-    display: inline-flex;
-    width: 100%;
-}
-.form_utente .form_input .input_inline input:first-child{
-    width: 30%;
-    margin-right: 10px;
-}
-.form_utente label{
-    display: block;
-    font-size: 12px;
-    margin-top: 15px;
-    color: #696969;
-}
-.form_utente .input_utente {
-    display: block;
-    width:96%;
-    margin: 0 0 5px 0;
-    border:none;
-    padding: 5px;
-    border-bottom: 4px solid gray;
-}
+    .form .form_input{
+        display: flex;
+    }
+        .form .form_input > div{
+            margin: 0 10px;
+            width:100%;
+        }
+        .form .form_input .input_inline{
+            display: inline-flex;
+            width: 100%;
+        }
+            .form .form_input .input_inline input:first-child{
+                width: 30%;
+                margin-right: 10px;
+            }
+    .form label{
+        display: block;
+        font-size: 12px;
+        margin-top: 15px;
+        color: #696969;
+    }
+    .form .input {
+        display: block;
+        width:96%;
+        margin: 0 0 5px 0;
+        border:none;
+        padding: 5px;
+        border-bottom: 4px solid gray;
+    }
 
-.submit_utente {
+.submit {
     padding: 6px 20px;
-    border: 4px solid #557BCE;
-    background: rgba(85, 123, 206, 0.2);
     margin: 20px 0 10px auto;
     display: block;
 }
+    .submit-utente{
+        border: 4px solid #557BCE;
+        background: rgba(85, 123, 206, 0.2);
+    }
+    .submit-libro{
+        border: 4px solid #7ccf6c;
+        background: rgba(124, 207, 108, 0.2);
+    }
+    .submit-prestito{
+        border: 4px solid #f3c66a;
+        background: rgba(243, 198, 106, 0.2);
+    }
 
 /* ### AVVISI ### */
 .errori {
@@ -470,7 +603,7 @@ footer{
 /* ### MEDIAQUERY ### */
 
 @media screen and (max-width: 640px) {
-    .form_utente .form_input {
+    .form .form_input {
         display: block;
     }
     .container#lista {
@@ -479,10 +612,10 @@ footer{
     .container#dettaglio {
         min-width: 200px;
     }
-    .form_utente {
+    .form {
         margin: 0;
     }
-    .form_utente .form_input > div {
+    .form .form_input > div {
         margin: 0 10px;
         width: auto;
     }
