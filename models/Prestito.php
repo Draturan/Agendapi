@@ -38,7 +38,7 @@ class Prestito{
     const ERR_DATI_PREST_MES = "Uno o più campi obbligatori sono stati omessi o sono errati, ricontrolla";
 
     const SUCC_INS_PREST = 201;
-    const SUCC_INS_PREST_MES = "Il prestito è stato aggiunto alla libreria correttamente";
+    const SUCC_INS_PREST_MES = "Il prestito è stato aggiunto correttamente";
     const SUCC_MOD_PREST = 202;
     const SUCC_MOD_PREST_MES = "Il prestito è stato modificato correttamente";
     const SUCC_DEL_PREST = 202;
@@ -59,9 +59,9 @@ class Prestito{
             $this->id = $dati['id'];
         }
         $this->fk_libro = $dati['fk_libro'];
-        $this->nome_libro = $dati['titolo'];
+        isset($dati['titolo']) ? $this->nome_libro = $dati['titolo'] : $this->nome_libro = "";
         $this->fk_utente = $dati['fk_utente'];
-        $this->nome_utente = $dati['nome']." ".$dati['cognome'];
+        (isset($dati['nome']) && isset($dati['cognome'])) ? $this->nome_utente = $dati['nome']." ".$dati['cognome'] : $this->nome_utente = "";
         $this->data_inizio = $dati['data_inizio'];
         $this->data_fine = $dati['data_fine'];
         $this->data_riconsegna = $dati['data_riconsegna'];
@@ -80,7 +80,8 @@ class Prestito{
 
     /**
      * Recupera il prestito dal database dal suo ID
-     *
+     * nel caso esista restituisce l'oggetto Prestito, altrimenti l'errore. In caso sia stato passato un id non
+     * conforme restituisce false;
      * @param $id
      * @return array|bool|Prestito
      */
@@ -90,7 +91,13 @@ class Prestito{
         $id = htmlentities($id, ENT_QUOTES);
         settype($id, "integer");
         if(is_int($id)){
-            $prestito = $db->db_conn->prepare('SELECT * FROM prestiti WHERE prestiti.id = ?');
+            $prestito = $db->db_conn->prepare('SELECT prestiti.*, libri.titolo, utenti.nome, utenti.cognome
+                                                  FROM libri
+                                                  INNER JOIN prestiti
+                                                  ON prestiti.fk_libro = libri.id
+                                                  INNER JOIN utenti
+                                                  ON prestiti.fk_utente=utenti.id
+                                                  WHERE prestiti.id = ?');
             $prestito->bindValue(1, $id, PDO::PARAM_INT);
             $prestito->execute();
             $risultato = array();
@@ -100,7 +107,7 @@ class Prestito{
                 }
             }
             if(!empty($risultato)){
-                return new Prestito($risultato);
+               return new Prestito($risultato);
             }else{
                 return array(Prestito::ERRORE => array(Prestito::ERR_NO_ID_PREST=>Prestito::ERR_NO_ID_PREST_MES));
             }
@@ -111,6 +118,7 @@ class Prestito{
 
     /**
      * Funzione di inerimento nuovo prestito
+     * restituisce il messaggio di errore o di successo
      *
      * @return array
      */
@@ -118,24 +126,26 @@ class Prestito{
         // avvio la connessione al Database
         $db = new DbConnection();
         // Inserisco il nuovo prestito
-        $ins_prestito = $db->db_conn->prepare('INSERT INTO libri (titolo,autore,data,genere) VALUES (?,?,?,?)');
-        $ins_prestito->bindValue(1, $this->titolo);
-        $ins_prestito->bindValue(2, $this->autore);
-        $ins_prestito->bindValue(3, $this->data);
-        $ins_prestito->bindValue(4, $this->genere);
+        $ins_prestito = $db->db_conn->prepare('INSERT INTO prestiti
+                                                (fk_libro,fk_utente,data_inizio,data_fine,data_riconsegna)
+                                                VALUES (?,?,?,?,?)');
+        $ins_prestito->bindValue(1, $this->fk_libro);
+        $ins_prestito->bindValue(2, $this->fk_utente);
+        $ins_prestito->bindValue(3, $this->data_inizio);
+        $ins_prestito->bindValue(4, $this->data_fine);
+        $ins_prestito->bindValue(5, $this->data_riconsegna);
         // Controllo il risultato dell'inserimento
         if ($ins_prestito->execute()) {
             return array(Prestito::SUCCESSO => array(Prestito::SUCC_INS_PREST => Prestito::SUCC_INS_PREST_MES));
         } else {
             // in caso di fallimento restituisco l'errore
-            //            print_r($ins_prestito->error_info);
             return array(Prestito::ERRORE => array(Prestito::ERR_INS_PREST => Prestito::ERR_INS_PREST_MES));
 
         }
     }
 
     /**
-     * Funzione di modifica di un prestito esistente e dei suoi numeri di telefono
+     * Funzione di modifica di un prestito esistente
      *
      * @return array
      */
@@ -143,35 +153,37 @@ class Prestito{
         // avvio la connessione al Database
         $db = new DbConnection();
         // Inserisco il nuovo prestito
-        $upd_prestito = $db->db_conn->prepare('UPDATE libri SET titolo=?,autore=?,data=?,genere=? WHERE id=?');
-        $upd_prestito->bindValue(1,$this->titolo);
-        $upd_prestito->bindValue(2,$this->autore);
-        $upd_prestito->bindValue(3,$this->data);
-        $upd_prestito->bindValue(4,$this->genere);
+        $upd_prestito = $db->db_conn->prepare('UPDATE prestiti
+                                                SET fk_libro=?,fk_utente=?,data_inizio=?,data_fine=?,data_riconsegna=?
+                                                WHERE id=?');
+        $upd_prestito->bindValue(1,$this->fk_libro);
+        $upd_prestito->bindValue(2,$this->fk_utente);
+        $upd_prestito->bindValue(3,$this->data_inizio);
+        $upd_prestito->bindValue(4,$this->data_fine);
+        $upd_prestito->bindValue(5,$this->data_riconsegna);
         $upd_prestito->bindValue(6,$this->id);
         // Controllo il risultato dell'inserimento
         if($upd_prestito->execute()){
             return array(Prestito::SUCCESSO => array(Prestito::SUCC_MOD_PREST=>Prestito::SUCC_MOD_PREST_MES));
         }else{
             // in caso di fallimento restituisco l'errore
-            //            print_r($ins_prestito->error_info);
             return array(Prestito::ERRORE => array(Prestito::ERR_MOD_PREST=>Prestito::ERR_MOD_PREST_MES));
 
         }
     }
 
     /**
-     * Funzione di delete dei libri
+     * Funzione di eliminazione del prestito
      *
      * @return null
      */
     public function deletePrestito(){
         // avvio la connessione al Database
         $db = new DbConnection();
-        // Elimino l'utente
-        $del_prestito = $db->db_conn->prepare('DELETE FROM libri WHERE libri.id=?');
+        // Elimino il prestito
+        $del_prestito = $db->db_conn->prepare('DELETE FROM prestiti WHERE prestiti.id=?');
         $del_prestito->bindValue(1,$this->id);
-        // Controllo il risultato dell'inserimento
+        // Controllo il risultato dell'eliminazione
         if($del_prestito->execute()){
             return array(Prestito::SUCCESSO => array(Prestito::SUCC_DEL_PREST=>Prestito::SUCC_DEL_PREST_MES));
         }else{

@@ -45,7 +45,7 @@ class Libreria{
         // Ordinati i risultati genero un array di oggetti Libro da restituire
         $lista_libri = array();
         foreach ($risultato as $key=>$obj_array) {
-            $lista_libri[] = new Libro($obj_array);
+            $lista_libri[$key] = new Libro($obj_array);
         }
         return $lista_libri;
     }

@@ -95,7 +95,7 @@ $avvisi = array("errori"=>$errori,"successi"=>$successi);
                         <h3><?= $mode == "modifica" ? "Modifica" : "Inserisci" ?> i dati</h3>
                     </div>
                     <div class="form_input">
-                        <div class="anagrafiche">
+                        <div class="form-box-sx">
                             <?= (isset($utente_mod)) ? '<input style="visibility:hidden;position:absolute" name="id" Value="'.$utente_mod->id.'"/>' : null?>
                             <label>Nome</label>
                             <input type="text" class="input" name="nome" placeholder="es. Mario" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->nome.'"' : null?> onblur="ControlloImmediato(this);" required />
@@ -108,7 +108,7 @@ $avvisi = array("errori"=>$errori,"successi"=>$successi);
                             <label>E-mail</label>
                             <input type="email" class="input" name="email" placeholder="es. mario.rossi@gmail.com" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->email.'"' : null?> onblur="ControlloImmediato(this);" required />
                         </div>
-                        <div class="telefono">
+                        <div class="form-box-dx">
                             <label>Recapito #1</label>
                             <div class="input_inline">
                                 <input type="text" class="input" name="tipo1" placeholder="Tipo" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->num_telefono[0]['tipo'].'"' : null?> onblur="ControlloImmediato(this)" />

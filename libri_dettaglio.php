@@ -96,7 +96,7 @@ $avvisi = array("errori"=>$errori,"successi"=>$successi);
                     <h3><?= $mode == "modifica" ? "Modifica" : "Inserisci" ?> i dati</h3>
                 </div>
                 <div class="form_input">
-                    <div class="anagrafiche">
+                    <div class="form-box-sx">
                         <?= (isset($libro_mod)) ? '<input style="visibility:hidden;position:absolute" name="id" Value="'.$libro_mod->id.'"/>' : null?>
                         <label>Titolo</label>
                         <input type="text" class="input" name="titolo" placeholder="es. Il Visconte Dimezzato" <?= (isset($libro_mod)) ? 'Value="'.$libro_mod->titolo.'"' : null?> onblur="ControlloImmediato(this);" required />
@@ -107,7 +107,7 @@ $avvisi = array("errori"=>$errori,"successi"=>$successi);
                         <label>Genere</label>
                         <input type="text" class="input" name="genere" placeholder="es. Narrativa" <?= (isset($libro_mod)) ? 'Value="'.$libro_mod->genere.'"' : null?> onblur="ControlloImmediato(this);" required />
                     </div>
-                    <div class="telefono">
+                    <div class="form-box-dx">
 
                     </div>
                 </div>

@@ -30,10 +30,18 @@ class Rubrica{
     public function getRubrica($limit=null){
         $db = new DbConnection();
         if($limit != null){
-            $rubrica = $db->db_conn->prepare('SELECT utenti.*, utenti_telefono.id AS num_id, utenti_telefono.fk_utente, utenti_telefono.tipo, utenti_telefono.telefono FROM  utenti LEFT JOIN utenti_telefono ON utenti_telefono.fk_utente = utenti.id LIMIT ?');
+            $rubrica = $db->db_conn->prepare('SELECT utenti.*, utenti_telefono.id
+                                              AS num_id, utenti_telefono.fk_utente, utenti_telefono.tipo, utenti_telefono.telefono
+                                              FROM  utenti
+                                              LEFT JOIN utenti_telefono
+                                              ON utenti_telefono.fk_utente = utenti.id LIMIT ?');
             $rubrica->bindValue(1, $limit, PDO::PARAM_INT);
         }else{
-            $rubrica = $db->db_conn->prepare('SELECT utenti.*, utenti_telefono.id AS num_id, utenti_telefono.fk_utente, utenti_telefono.tipo, utenti_telefono.telefono FROM  utenti LEFT JOIN utenti_telefono ON utenti_telefono.fk_utente = utenti.id');
+            $rubrica = $db->db_conn->prepare('SELECT utenti.*, utenti_telefono.id
+                                              AS num_id, utenti_telefono.fk_utente, utenti_telefono.tipo, utenti_telefono.telefono
+                                              FROM  utenti
+                                              LEFT JOIN utenti_telefono
+                                              ON utenti_telefono.fk_utente = utenti.id');
         }
         $rubrica->execute();
         $risultato = array();
@@ -58,8 +66,8 @@ class Rubrica{
         }
         // Ordinati i risultati genero un array di oggetti Utente da restituire
         $lista_utenti = array();
-        foreach ($risultato as $obj_array) {
-            $lista_utenti[] = new Utente($obj_array);
+        foreach ($risultato as $key=>$obj_array) {
+            $lista_utenti[$key] = new Utente($obj_array);
         }
         return $lista_utenti;
     }

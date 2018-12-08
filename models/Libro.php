@@ -123,14 +123,13 @@ class Libro{
             return array(Libro::SUCCESSO => array(Libro::SUCC_INS_LIBRO => Libro::SUCC_INS_LIBRO_MES));
         } else {
             // in caso di fallimento restituisco l'errore
-            //            print_r($ins_libro->error_info);
             return array(Libro::ERRORE => array(Libro::ERR_INS_LIBRO => Libro::ERR_INS_LIBRO_MES));
 
         }
     }
 
     /**
-     * Funzione di modifica di un libro esistente e dei suoi numeri di telefono
+     * Funzione di modifica di un libro esistente
      *
      * @return array
      */
@@ -143,13 +142,12 @@ class Libro{
         $upd_libro->bindValue(2,$this->autore);
         $upd_libro->bindValue(3,$this->data);
         $upd_libro->bindValue(4,$this->genere);
-        $upd_libro->bindValue(6,$this->id);
+        $upd_libro->bindValue(5,$this->id);
         // Controllo il risultato dell'inserimento
         if($upd_libro->execute()){
             return array(Libro::SUCCESSO => array(Libro::SUCC_MOD_LIBRO=>Libro::SUCC_MOD_LIBRO_MES));
         }else{
             // in caso di fallimento restituisco l'errore
-            //            print_r($ins_libro->error_info);
             return array(Libro::ERRORE => array(Libro::ERR_MOD_LIBRO=>Libro::ERR_MOD_LIBRO_MES));
 
         }
