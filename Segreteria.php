@@ -19,6 +19,9 @@ class Segreteria{
 
     private $db;
 
+    const ERR_NO_PRESTITI = 101;
+    const ERR_NO_PRESTITI_MES = "Spiacente, non è stato trovato alcun libro";
+
     public function __construct() {
         $this->db = new DbConnection();
     }

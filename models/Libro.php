@@ -28,13 +28,15 @@ class Libro{
 
     const ERR_NO_ID_LIBRO = 101;
     const ERR_NO_ID_LIBRO_MES = "Spiacente, non è stato trovato nessun libro con questo id.";
-    const ERR_INS_LIBRO = 102;
+    const ERR_NO_DATI = 102;
+    const ERR_NO_DATI_MES = "Nessun dato ricevuto";
+    const ERR_INS_LIBRO = 103;
     const ERR_INS_LIBRO_MES = "L'inserimento del nuovo libro ha riscontrato qualche problema";
-    const ERR_MOD_LIBRO = 106;
+    const ERR_MOD_LIBRO = 104;
     const ERR_MOD_LIBRO_MES = "La modifica al libro ha riscontrato qualche problema";
-    const ERR_DEL_LIBRO = 107;
+    const ERR_DEL_LIBRO = 105;
     const ERR_DEL_LIBRO_MES = "L'eliminazione del libro ha riscontrato qualche problema";
-    const ERR_DATI_LIBRO = 104;
+    const ERR_DATI_LIBRO = 106;
     const ERR_DATI_LIBRO_MES = "Uno o più campi obbligatori sono stati omessi o sono errati, ricontrolla";
 
     const SUCC_INS_LIBRO = 201;
@@ -50,18 +52,31 @@ class Libro{
      * @param array $dati
      */
     public function __construct($dati) {
-        //
-        foreach ($dati as $key=>$item) {
-            $dati[$key] = htmlentities($item);
+        if(is_object($dati)){
+            foreach ($dati as $key=>$item) {
+                $dati->$key = htmlentities($item);
+            }
+            if(isset($dati->id)){
+                settype($dati->id, "integer");
+                $this->id = $dati->id;
+            }
+            $this->titolo = $dati->titolo;
+            $this->autore = $dati->autore;
+            $this->data = $dati->data;
+            $this->genere = $dati->genere;
+        }elseif(is_array($dati)){
+            foreach ($dati as $key=>$item) {
+                $dati[$key] = htmlentities($item);
+            }
+            if(isset($dati['id'])){
+                settype($dati['id'], "integer");
+                $this->id = $dati['id'];
+            }
+            $this->titolo = $dati['titolo'];
+            $this->autore = $dati['autore'];
+            $this->data = $dati['data'];
+            $this->genere = $dati['genere'];
         }
-        if(isset($dati['id'])){
-            settype($dati['id'], "integer");
-            $this->id = $dati['id'];
-        }
-        $this->titolo = $dati['titolo'];
-        $this->autore = $dati['autore'];
-        $this->data = $dati['data'];
-        $this->genere = $dati['genere'];
 
     }
 
@@ -69,11 +84,19 @@ class Libro{
      * controlla che il libro non abbia informazioni mancanti e restituisce errori in caso di mancato successo
      * @return array|bool
      */
-    public function controlloLibro(){
-        if($this->titolo!="" || $this->autore!="" || $this->data!="" || $this->genere!=""){
-            return true;
+    public static function controlloLibro($dati){
+        if(is_object($dati)){
+            if(!empty($dati->titolo) && !empty($dati->autore) && !empty($dati->data) && !empty($dati->genere)){
+                return true;
+            }
+            return array(Libro::ERRORE => array(Libro::ERR_DATI_LIBRO=>Libro::ERR_DATI_LIBRO_MES));
+        }elseif(is_array($dati)){
+            if(!empty($dati["titolo"]) && !empty($dati["autore"]) && !empty($dati["data"]) && !empty($dati["genere"])){
+                return true;
+            }
+            return array(Libro::ERRORE => array(Libro::ERR_DATI_LIBRO=>Libro::ERR_DATI_LIBRO_MES));
         }
-        return array(Libro::ERRORE => array(Libro::ERR_DATI_LIBRO=>Libro::ERR_DATI_LIBRO_MES));
+        return array(Libro::ERRORE => array(Libro::ERR_NO_DATI=>Libro::ERR_NO_DATI_MES));
     }
 
     /**

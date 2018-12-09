@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: Simone
  * Date: 09/12/2018
- * Time: 16:54
+ * Time: 19:06
  */
 
 // headers
@@ -16,24 +16,24 @@ header('Content-Type: application/json');
 // normalizzo l'indirizzo per l'accesso al file di connessione
 while (! file_exists('index.php') )
     chdir('..');
-include_once("models/Utente.php");
+include_once("models/Libro.php");
 
 // raccolgo il dato dal GET se c'è
 $id = isset($_GET['id']) ? $_GET['id'] : die();
 
-// recupero l'utente
-$utente_sel = Utente::getUtenteByID($id);
+// recupero il libro
+$libro_sel = Libro::getLibroByID($id);
 
-if(is_object($utente_sel)){
+if(is_object($libro_sel)){
     // risposta 200 - OK
     http_response_code(200);
 
     // mostro i dati in json
-    echo json_encode($utente_sel);
+    echo json_encode($libro_sel);
 }else{
     // risposta 404 - Not found
     http_response_code(404);
 
     // mostro messaggio d'errore
-    echo json_encode(array("message"=> array_shift($utente_sel[Utente::ERRORE])));
+    echo json_encode(array("message"=> array_shift($libro_sel[Libro::ERRORE])));
 }

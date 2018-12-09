@@ -15,6 +15,9 @@ include_once("models/Libro.php");
  */
 class Libreria{
 
+    const ERR_NO_LIBRI = 101;
+    const ERR_NO_LIBRI_MES = "Spiacente, non è stato trovato alcun libro";
+
     public function __construct() {
 
     }

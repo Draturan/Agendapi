@@ -31,13 +31,15 @@ class Prestito{
 
     const ERR_NO_ID_PREST = 101;
     const ERR_NO_ID_PREST_MES = "Spiacente, non è stato trovato nessun prestito con questo id.";
-    const ERR_INS_PREST = 102;
+    const ERR_NO_DATI = 102;
+    const ERR_NO_DATI_MES = "Nessun dato ricevuto";
+    const ERR_INS_PREST = 103;
     const ERR_INS_PREST_MES = "L'inserimento del nuovo prestito ha riscontrato qualche problema";
-    const ERR_MOD_PREST = 103;
+    const ERR_MOD_PREST = 104;
     const ERR_MOD_PREST_MES = "La modifica al prestito ha riscontrato qualche problema";
-    const ERR_DEL_PREST = 104;
+    const ERR_DEL_PREST = 105;
     const ERR_DEL_PREST_MES = "L'eliminazione del prestito ha riscontrato qualche problema";
-    const ERR_DATI_PREST = 105;
+    const ERR_DATI_PREST = 106;
     const ERR_DATI_PREST_MES = "Uno o più campi obbligatori sono stati omessi o sono errati, ricontrolla";
 
     const SUCC_INS_PREST = 201;
@@ -53,32 +55,57 @@ class Prestito{
      * @param array $dati
      */
     public function __construct($dati) {
-        //
-        foreach ($dati as $key=>$item) {
-            $dati[$key] = htmlentities($item);
+        if(is_object($dati)){
+            foreach ($dati as $key=>$item) {
+                $dati->$key = htmlentities($item);
+            }
+            if(isset($dati->id)){
+                settype($dati->id, "integer");
+                $this->id = $dati->id;
+            }
+            $this->fk_libro = $dati->fk_libro;
+            isset($dati->titolo) ? $this->nome_libro = $dati->titolo : $this->nome_libro = "";
+            $this->fk_utente = $dati->fk_utente;
+            (isset($dati->nome) && isset($dati->cognome)) ? $this->nome_utente = $dati->nome." ".$dati->cognome : $this->nome_utente = "";
+            $this->data_inizio = $dati->data_inizio;
+            $this->data_fine = $dati->data_fine;
+            $this->data_riconsegna = $dati->data_riconsegna;
+        }elseif(is_array($dati)){
+            foreach ($dati as $key=>$item) {
+                $dati[$key] = htmlentities($item);
+            }
+            if(isset($dati['id'])){
+                settype($dati['id'], "integer");
+                $this->id = $dati['id'];
+            }
+            $this->fk_libro = $dati['fk_libro'];
+            isset($dati['titolo']) ? $this->nome_libro = $dati['titolo'] : $this->nome_libro = "";
+            $this->fk_utente = $dati['fk_utente'];
+            (isset($dati['nome']) && isset($dati['cognome'])) ? $this->nome_utente = $dati['nome']." ".$dati['cognome'] : $this->nome_utente = "";
+            $this->data_inizio = $dati['data_inizio'];
+            $this->data_fine = $dati['data_fine'];
+            $this->data_riconsegna = $dati['data_riconsegna'];
         }
-        if(isset($dati['id'])){
-            settype($dati['id'], "integer");
-            $this->id = $dati['id'];
-        }
-        $this->fk_libro = $dati['fk_libro'];
-        isset($dati['titolo']) ? $this->nome_libro = $dati['titolo'] : $this->nome_libro = "";
-        $this->fk_utente = $dati['fk_utente'];
-        (isset($dati['nome']) && isset($dati['cognome'])) ? $this->nome_utente = $dati['nome']." ".$dati['cognome'] : $this->nome_utente = "";
-        $this->data_inizio = $dati['data_inizio'];
-        $this->data_fine = $dati['data_fine'];
-        $this->data_riconsegna = $dati['data_riconsegna'];
+
     }
 
     /**
      * controlla che il prestito non abbia informazioni mancanti e restituisce errori in caso di mancato successo
      * @return array|bool
      */
-    public function controlloPrestito(){
-        if($this->fk_libro!="" || $this->fk_utente!="" || $this->data_inizio!="" || $this->data_fine!=""){
-            return true;
+    public static function controlloPrestito($dati){
+        if(is_object($dati)){
+            if(!empty($dati->fk_libro) && !empty($dati->fk_utente) && !empty($dati->data_inizio) && !empty($dati->data_fine)){
+                return true;
+            }
+            return array(Prestito::ERRORE => array(Prestito::ERR_DATI_PREST=>Prestito::ERR_DATI_PREST_MES));
+        }elseif(is_array($dati)){
+            if(!empty($dati["fk_libro"]) && !empty($dati["fk_utente"]) && !empty($dati["data_inizio"]) && !empty($dati["data_fine"])){
+                return true;
+            }
+            return array(Prestito::ERRORE => array(Prestito::ERR_DATI_PREST=>Prestito::ERR_DATI_PREST_MES));
         }
-        return array(Prestito::ERRORE => array(Prestito::ERR_DATI_PREST=>Prestito::ERR_DATI_PREST_MES));
+        return array(Prestito::ERRORE => array(Prestito::ERR_NO_DATI=>Prestito::ERR_NO_DATI_MES));
     }
 
     /**
