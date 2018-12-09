@@ -82,7 +82,7 @@ $avvisi = array("errori"=>$errori,"successi"=>$successi);
             <p class="torna_lista"><a href="libri.php"> < Torna alla lista libri </a></p>
             <?php
             /* Mostro gli errori */
-            if(empty($errori) || empty($successi)):
+            if(!empty($errori) || !empty($successi)):
                 foreach($avvisi as $tipo=>$avviso):
                     if($avviso != null):
                         foreach($avviso as $num=>$messaggio):

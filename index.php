@@ -19,7 +19,7 @@
             <div class="strato1">
                 <div class="strato2">
                     <h1>Lapiary _ </h1>
-                    <h2>Home Page</h2>
+                    <h2>Homepage</h2>
                 </div>
             </div>
         </header>

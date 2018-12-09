@@ -5,6 +5,9 @@
  * Date: 07/12/2018
  * Time: 14:47
  */
+// normalizzo l'indirizzo per l'accesso al file di connessione
+while (! file_exists('index.php') )
+    chdir('..');
 
 include_once("DbConnection.php");
 
@@ -30,18 +33,18 @@ class Prestito{
     const ERR_NO_ID_PREST_MES = "Spiacente, non è stato trovato nessun prestito con questo id.";
     const ERR_INS_PREST = 102;
     const ERR_INS_PREST_MES = "L'inserimento del nuovo prestito ha riscontrato qualche problema";
-    const ERR_MOD_PREST = 106;
+    const ERR_MOD_PREST = 103;
     const ERR_MOD_PREST_MES = "La modifica al prestito ha riscontrato qualche problema";
-    const ERR_DEL_PREST = 107;
+    const ERR_DEL_PREST = 104;
     const ERR_DEL_PREST_MES = "L'eliminazione del prestito ha riscontrato qualche problema";
-    const ERR_DATI_PREST = 104;
+    const ERR_DATI_PREST = 105;
     const ERR_DATI_PREST_MES = "Uno o più campi obbligatori sono stati omessi o sono errati, ricontrolla";
 
     const SUCC_INS_PREST = 201;
     const SUCC_INS_PREST_MES = "Il prestito è stato aggiunto correttamente";
     const SUCC_MOD_PREST = 202;
     const SUCC_MOD_PREST_MES = "Il prestito è stato modificato correttamente";
-    const SUCC_DEL_PREST = 202;
+    const SUCC_DEL_PREST = 203;
     const SUCC_DEL_PREST_MES = "Il prestito è stato eliminato correttamente";
 
 

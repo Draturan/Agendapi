@@ -20,13 +20,7 @@ if(isset($_GET['mode'])){
             if(isset($_GET['id']) && $_GET['id'] != ""){
                 $utente_by_id = Utente::getUtenteByID($_GET['id']);
                 if(is_object($utente_by_id)){
-                    $risultato = "";
-                    $controllo = $utente_by_id->controlloUtente();
-                    if ($controllo === true) {
-                        $risultato = $utente_by_id->deleteUtente();
-                    } else {
-                        $risultato = $controllo;
-                    }
+                    $risultato = $utente_by_id->deleteUtente();
                     switch (key($risultato)) {
                         case Utente::ERRORE:
                             $errori[] = $risultato[Utente::ERRORE];
@@ -35,7 +29,6 @@ if(isset($_GET['mode'])){
                             $successi[] = $risultato[Utente::SUCCESSO];
                             break;
                     }
-
                 }else{
                     $errori[] = $utente_by_id[Utente::ERRORE];
                 }

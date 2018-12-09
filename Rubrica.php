@@ -15,6 +15,9 @@ include_once("models/Utente.php");
  */
 class Rubrica{
 
+    const ERR_NO_UTENTI = 101;
+    const ERR_NO_UTENTI_MES = "Spiacente, non è stato trovato alcun utente";
+
     public function __construct() {
 
     }

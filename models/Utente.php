@@ -6,7 +6,11 @@
  * Time: 17:56
  */
 
-include_once("DbConnection.php");
+// normalizzo l'indirizzo per l'accesso al file di connessione
+while (! file_exists('index.php') )
+    chdir('..');
+
+include_once "DbConnection.php";
 
 /**
  * Class Utente
@@ -27,6 +31,10 @@ class Utente{
 
     const ERR_NO_ID_UTENTE = 101;
     const ERR_NO_ID_UTENTE_MES = "Spiacente, non è stato trovato nessun utente con questo id.";
+    const ERR_NO_ID = 110;
+    const ERR_NO_ID_MES = "Spiacente, l'id che hai inserito non è corretto";
+    const ERR_NO_DATI = 111;
+    const ERR_NO_DATI_MES = "Nessun dato ricevuto";
     const ERR_INS_UTENTE = 102;
     const ERR_INS_UTENTE_MES = "L'inserimento del nuovo utente ha riscontrato qualche problema";
     const ERR_INS_TELEFONI = 103;
@@ -48,7 +56,7 @@ class Utente{
     const SUCC_INS_UTENTE_MES = "L'utente è stato aggiunto alla rubrica correttamente";
     const SUCC_MOD_UTENTE = 202;
     const SUCC_MOD_UTENTE_MES = "L'utente è stato modificato correttamente";
-    const SUCC_DEL_UTENTE = 202;
+    const SUCC_DEL_UTENTE = 203;
     const SUCC_DEL_UTENTE_MES = "L'utente è stato eliminato correttamente";
 
 
@@ -57,44 +65,80 @@ class Utente{
      * @param array $dati
      */
     public function __construct($dati) {
-        //
-        foreach ($dati as $key=>$item) {
-            $dati[$key] = htmlentities($item);
-        }
-        if(isset($dati['id'])){
-            settype($dati['id'], "integer");
-            $this->id = $dati['id'];
-        }
-        $this->nome = $dati['nome'];
-        $this->cognome = $dati['cognome'];
-        $this->data_di_nascita = $dati['datanascita'];
-        $this->cap = $dati['cap'];
-        $this->email = $dati['email'];
-        $this->num_telefono = array(array('tipo'=>$dati['tipo1'], 'telefono'=>$dati['telefono1']),
-            array( 'tipo'=>$dati['tipo2'], 'telefono'=>$dati['telefono2']),
-            array( 'tipo'=>$dati['tipo3'], 'telefono'=>$dati['telefono3']));
-        if(array_key_exists("num_id1",$dati)){
-            $this->num_telefono[0]["num_id"] = $dati['num_id1'];
-            $this->num_telefono[1]["num_id"] = $dati['num_id2'];
-            $this->num_telefono[2]["num_id"] = $dati['num_id3'];
+        // controllo se i dati sono in formato array o object
+        if(is_object($dati)){
+            // sanifichiamo tutti i dati
+            foreach ($dati as $key=>$item) {
+                $dati->$key = htmlentities($item);
+            }
+            if(isset($dati->id)){
+                settype($dati->id, "integer");
+                $this->id = $dati->id;
+            }
+            $this->nome = $dati->nome;
+            $this->cognome = $dati->cognome;
+            $this->data_di_nascita = $dati->data_di_nascita;
+            $this->cap = $dati->cap;
+            $this->email = $dati->email;
+            $this->num_telefono = array(array('tipo'=>$dati->tipo1, 'telefono'=>$dati->telefono1),
+                array( 'tipo'=>$dati->tipo2, 'telefono'=>$dati->telefono2),
+                array( 'tipo'=>$dati->tipo3, 'telefono'=>$dati->telefono3));
+            if(isset($dati->num_id1)){
+                $this->num_telefono[0]["num_id"] = $dati->num_id1;
+                $this->num_telefono[1]["num_id"] = $dati->num_id2;
+                $this->num_telefono[2]["num_id"] = $dati->num_id3;
+            }
+        }else{
+            // sanifichiamo tutti i dati
+            foreach ($dati as $key=>$item) {
+                $dati[$key] = htmlentities($item);
+            }
+            if(isset($dati['id'])){
+                settype($dati['id'], "integer");
+                $this->id = $dati['id'];
+            }
+            $this->nome = $dati['nome'];
+            $this->cognome = $dati['cognome'];
+            $this->data_di_nascita = $dati['data_di_nascita'];
+            $this->cap = $dati['cap'];
+            $this->email = $dati['email'];
+            $this->num_telefono = array(array('tipo'=>$dati['tipo1'], 'telefono'=>$dati['telefono1']),
+                array( 'tipo'=>$dati['tipo2'], 'telefono'=>$dati['telefono2']),
+                array( 'tipo'=>$dati['tipo3'], 'telefono'=>$dati['telefono3']));
+            if(array_key_exists("num_id1",$dati)){
+                $this->num_telefono[0]["num_id"] = $dati['num_id1'];
+                $this->num_telefono[1]["num_id"] = $dati['num_id2'];
+                $this->num_telefono[2]["num_id"] = $dati['num_id3'];
+            }
         }
 
 
     }
 
     /**
-     * controlla che l'utente non abbia informazioni mancanti e fa un controllo sulla validità dell'email
-     * restituendo errori in caso di mancato successo
+     * controlla che i dati forniti per la creazione dell'utente non abbiano informazioni mancanti
+     * e fa un controllo sulla validità dell'email restituendo errori in caso di mancato successo
      * @return array|bool
      */
-    public function controlloUtente(){
-        if($this->nome!="" || $this->cognome!="" || $this->data_di_nascita!="" || $this->cap!="" || $this->email!=""){
-            if($this->controllaEmail($this->email)){
-                return true;
+    public static function controlloUtente($dati){
+        if(is_object($dati)){
+            if(!empty($dati->nome) && !empty($dati->cognome) && !empty($dati->data_di_nascita) && !empty($dati->cap) && !empty($dati->email)){
+                if(Utente::controllaEmail($dati->email)){
+                    return true;
+                }
+                return array(Utente::ERRORE => array(Utente::ERR_EMAIL_UTENTE=>Utente::ERR_EMAIL_UTENTE_MES));
             }
-            return array(Utente::ERRORE => array(Utente::ERR_EMAIL_UTENTE=>Utente::ERR_EMAIL_UTENTE_MES));
+            return array(Utente::ERRORE => array(Utente::ERR_DATI_UTENTE=>Utente::ERR_DATI_UTENTE_MES));
+        }elseif(is_array($dati)){
+            if(!empty($dati["nome"]) && !empty($dati["cognome"]) && !empty($dati["data_di_nascita"]) && !empty($dati["cap"]) && !empty($dati["email"])){
+                if(Utente::controllaEmail($dati["email"])){
+                    return true;
+                }
+                return array(Utente::ERRORE => array(Utente::ERR_EMAIL_UTENTE=>Utente::ERR_EMAIL_UTENTE_MES));
+            }
+            return array(Utente::ERRORE => array(Utente::ERR_DATI_UTENTE=>Utente::ERR_DATI_UTENTE_MES));
         }
-        return array(Utente::ERRORE => array(Utente::ERR_DATI_UTENTE=>Utente::ERR_DATI_UTENTE_MES));
+        return array(Utente::ERRORE => array(Utente::ERR_NO_DATI=>Utente::ERR_NO_DATI_MES));
     }
 
     /**
@@ -109,7 +153,12 @@ class Utente{
         $id = htmlentities($id, ENT_QUOTES);
         settype($id, "integer");
         if(is_int($id)){
-            $utente = $db->db_conn->prepare('SELECT utenti.*, utenti_telefono.id AS num_id, utenti_telefono.fk_utente, utenti_telefono.tipo, utenti_telefono.telefono FROM utenti INNER JOIN utenti_telefono ON utenti.id = ? AND utenti_telefono.fk_utente = ?');
+            $utente = $db->db_conn->prepare('SELECT utenti.*, utenti_telefono.id
+                                              AS num_id, utenti_telefono.fk_utente, utenti_telefono.tipo, utenti_telefono.telefono
+                                              FROM utenti
+                                              INNER JOIN utenti_telefono
+                                              ON utenti.id = ?
+                                              AND utenti_telefono.fk_utente = ?');
             $utente->bindValue(1, $id, PDO::PARAM_INT);
             $utente->bindValue(2, $id, PDO::PARAM_INT);
             $utente->execute();
@@ -134,7 +183,7 @@ class Utente{
                 return array(Utente::ERRORE => array(Utente::ERR_NO_ID_UTENTE=>Utente::ERR_NO_ID_UTENTE_MES));
             }
         }else{
-            return false;
+            return array(Utente::ERRORE => array(Utente::ERR_NO_ID=>Utente::ERR_NO_ID_MES));
         }
     }
 
@@ -147,7 +196,7 @@ class Utente{
         // avvio la connessione al Database
         $db = new DbConnection();
         // Inserisco il nuovo utente
-        $ins_cont = $db->db_conn->prepare('INSERT INTO utenti (nome,cognome,datanascita,cap,email) VALUES (?,?,?,?,?)');
+        $ins_cont = $db->db_conn->prepare('INSERT INTO utenti (nome,cognome,data_di_nascita,cap,email) VALUES (?,?,?,?,?)');
         $ins_cont->bindValue(1, $this->nome);
         $ins_cont->bindValue(2, $this->cognome);
         $ins_cont->bindValue(3, $this->data_di_nascita);
@@ -172,7 +221,6 @@ class Utente{
             return array(Utente::SUCCESSO => array(Utente::SUCC_INS_UTENTE => Utente::SUCC_INS_UTENTE_MES));
         } else {
             // in caso di fallimento restituisco l'errore
-            //            print_r($ins_cont->error_info);
             return array(Utente::ERRORE => array(Utente::ERR_INS_UTENTE => Utente::ERR_INS_UTENTE_MES));
 
         }
@@ -187,7 +235,7 @@ class Utente{
         // avvio la connessione al Database
         $db = new DbConnection();
         // Modifico l'utente
-        $upd_cont = $db->db_conn->prepare('UPDATE utenti SET nome=?,cognome=?,datanascita=?,cap=?,email=? WHERE id=?');
+        $upd_cont = $db->db_conn->prepare('UPDATE utenti SET nome=?,cognome=?,data_di_nascita=?,cap=?,email=? WHERE id=?');
         $upd_cont->bindValue(1,$this->nome);
         $upd_cont->bindValue(2,$this->cognome);
         $upd_cont->bindValue(3,$this->data_di_nascita);
@@ -212,9 +260,7 @@ class Utente{
             return array(Utente::SUCCESSO => array(Utente::SUCC_MOD_UTENTE=>Utente::SUCC_MOD_UTENTE_MES));
         }else{
             // in caso di fallimento restituisco l'errore
-            //            print_r($ins_cont->error_info);
             return array(Utente::ERRORE => array(Utente::ERR_MOD_UTENTE=>Utente::ERR_MOD_UTENTE_MES));
-
         }
     }
 
@@ -255,7 +301,7 @@ class Utente{
      * @param String $email
      * @return bool check result
      */
-    function controllaEmail($email){
+    public static function controllaEmail($email){
         if((($num_at = count(explode( '@', $email )) - 1)!= 1) or
             (strpos($email,';') || strpos($email,',') || strpos($email,' ')) or
             (!preg_match( '/^[\w\.\-]+@\w+[\w\.\-]*?\.\w{1,4}$/', $email))) {

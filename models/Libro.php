@@ -5,6 +5,9 @@
  * Date: 06/12/2018
  * Time: 18:14
  */
+// normalizzo l'indirizzo per l'accesso al file di connessione
+while (! file_exists('index.php') )
+    chdir('..');
 
 include_once("DbConnection.php");
 
@@ -38,7 +41,7 @@ class Libro{
     const SUCC_INS_LIBRO_MES = "Il libro è stato aggiunto alla libreria correttamente";
     const SUCC_MOD_LIBRO = 202;
     const SUCC_MOD_LIBRO_MES = "Il libro è stato modificato correttamente";
-    const SUCC_DEL_LIBRO = 202;
+    const SUCC_DEL_LIBRO = 203;
     const SUCC_DEL_LIBRO_MES = "Il libro è stato eliminato correttamente";
 
 

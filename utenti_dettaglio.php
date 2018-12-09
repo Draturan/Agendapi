@@ -31,10 +31,11 @@ if(isset($_GET['mode'])){
 // Controllo la presenza di post
 if($_POST) {
     include_once("models/Utente.php");
-    $utente = new Utente($_POST);
+    $dati = $_POST;
     $risultato = "";
-    $controllo = $utente->controlloUtente();
+    $controllo = Utente::controlloUtente($dati);
     if ($controllo === true) {
+        $utente = new Utente($dati);
         if ($mode === "modifica") {
             $risultato = $utente->updateUtente();
             $utente_mod = $utente;
@@ -44,7 +45,7 @@ if($_POST) {
     } else {
         $risultato = $controllo;
     }
-    switch (key($risultato)) {
+    switch(key($risultato)){
         case Utente::ERRORE:
             $errori[] = $risultato[Utente::ERRORE];
             break;
@@ -81,7 +82,7 @@ $avvisi = array("errori"=>$errori,"successi"=>$successi);
                 <p class="torna_lista"><a href="utenti.php"> < Torna alla lista contatti </a></p>
                 <?php
                 /* Mostro gli errori */
-                if(empty($errori) || empty($successi)):
+                if(!empty($errori) || !empty($successi)):
                     foreach($avvisi as $tipo=>$avviso):
                         if($avviso != null):
                             foreach($avviso as $num=>$messaggio):

@@ -108,7 +108,7 @@ usort($utenti, "ordinaUtenti");
                     <p class="torna_lista"><a href="prestiti.php"> < Torna alla lista prestiti </a></p>
                     <?php
                     /* Mostro gli errori */
-                    if(empty($errori) || empty($successi)):
+                    if(!empty($errori) || !empty($successi)):
                         foreach($avvisi as $tipo=>$avviso):
                             if($avviso != null):
                                 foreach($avviso as $num=>$messaggio):
