@@ -103,7 +103,7 @@ $avvisi = array("errori"=>$errori,"successi"=>$successi);
                             <label>Cognome</label>
                             <input type="text" class="input" name="cognome" placeholder="es. Rossi" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->cognome.'"' : null?> onblur="ControlloImmediato(this);" required />
                             <label>Data di nascita</label>
-                            <input type="date" class="input" name="datanascita" placeholder="Data di nascita" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->data_di_nascita.'"' : null?> onblur="ControlloImmediato(this);" required />
+                            <input type="date" class="input" name="data_di_nascita" placeholder="Data di nascita" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->data_di_nascita.'"' : null?> onblur="ControlloImmediato(this);" required />
                             <label>CAP</label>
                             <input type="text" class="input" name="cap" placeholder="es. 00100" maxlength="5" <?= (isset($utente_mod)) ? 'Value="'.$utente_mod->cap.'"' : null?> onblur="ControlloImmediato(this);" required />
                             <label>E-mail</label>

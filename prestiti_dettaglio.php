@@ -34,7 +34,7 @@ if($_POST) {
     include_once("models/Prestito.php");
     $prestito = new Prestito($_POST);
     $risultato = "";
-    $controllo = $prestito->controlloPrestito();
+    $controllo = Prestito::controlloPrestito($prestito);
     if ($controllo === true) {
         if ($mode === "modifica") {
             $risultato = $prestito->updatePrestito();

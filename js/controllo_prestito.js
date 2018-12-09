@@ -19,14 +19,14 @@ function ControlloImmediato(object){
      * 		object.style.background = "#ffcccc";
      */
     switch (object.name){
-        case "libro":
+        case "fk_libro":
             if(object.value.length < 1){
                 object.style.borderColor = "red";
             }else {
                 object.style.borderColor = "green";
             }
             break;
-        case "utente":
+        case "fk_utente":
             if(object.value.length < 1){
                 object.style.borderColor = "red";
             }else {
@@ -63,19 +63,19 @@ function ControlloImmediato(object){
 function ControllaForm(object){
 
     //Normalizzazione Libro e Utente
-    object.libro.value = object.libro.value.substring(0,1).toUpperCase() + object.libro.value.substring(1);
-    object.utente.value = object.utente.value.substring(0,1).toUpperCase() + object.utente.value.substring(1);
+    object.fk_libro.value = object.fk_libro.value.substring(0,1).toUpperCase() + object.fk_libro.value.substring(1);
+    object.fk_utente.value = object.fk_utente.value.substring(0,1).toUpperCase() + object.fk_utente.value.substring(1);
 
     //Libro
-    if(object.libro.value.length < 1){
-        object.libro.focus();
-        object.libro.select();
+    if(object.fk_libro.value.length < 1){
+        object.fk_libro.focus();
+        object.fk_libro.select();
         return false;
     }
     //Utente
-    if(object.utente.value.length < 1 || !espressnome.test(object.utente.value)){
-        object.utente.focus();
-        object.utente.select();
+    if(object.fk_utente.value.length < 1 || !espressnome.test(object.fk_utente.value)){
+        object.fk_utente.focus();
+        object.fk_utente.select();
         return false;
     }
     //Data inizio prestito

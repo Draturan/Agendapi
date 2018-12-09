@@ -28,7 +28,7 @@ function ControlloImmediato(object){
             object.style.borderColor = "green";
         }
         break;
-        case "datanascita":
+        case "data_di_nascita":
             if(object.value.length < 1 || !espressdata.test(object.value)){
                 object.style.borderColor = "red";
             }else {
@@ -87,6 +87,12 @@ function ControllaForm(object){
     if(object.cognome.value.length < 1 || !espressnome.test(object.cognome.value)){
         object.cognome.focus();
         object.cognome.select();
+        return false;
+    }
+    //Data di nascita
+    if(object.data_di_nascita.value.length < 1 || !espressdata.test(object.data_di_nascita.value)){
+        object.data_di_nascita.focus();
+        object.data_di_nascita.select();
         return false;
     }
     //Email

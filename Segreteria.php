@@ -20,7 +20,7 @@ class Segreteria{
     private $db;
 
     const ERR_NO_PRESTITI = 101;
-    const ERR_NO_PRESTITI_MES = "Spiacente, non è stato trovato alcun libro";
+    const ERR_NO_PRESTITI_MES = "Spiacente, non è stato trovato alcun libro in prestito";
 
     public function __construct() {
         $this->db = new DbConnection();
@@ -68,11 +68,15 @@ class Segreteria{
      *
      * @return array[Prestito Objects]
      */
-    public function getLibriInPrestito(){
+    public function getLibriInPrestito($user=null){
         $query = "SELECT prestiti.* , libri.titolo , utenti.nome, utenti.cognome
                     FROM libri INNER JOIN prestiti
                     ON prestiti.fk_libro = libri.id INNER JOIN utenti
                     ON prestiti.fk_utente = utenti.id WHERE prestiti.data_riconsegna = '0000-00-00'";
+        if($user != null){
+            $user = htmlentities($user);
+            $query .= "AND prestiti.fk_utente = ".$user;
+        }
         $segreteria = $this->db->db_conn->prepare($query);
         $segreteria->execute();
         $risultato = array();
@@ -91,6 +95,10 @@ class Segreteria{
         return $lista_prestiti;
     }
 
+    /**
+     * Restituisce la lista di libri attualmente disponibili da dare in prestito
+     * @return array
+     */
     public function getLibriDisponibili(){
         // Prendo la lista dei libri presenti
         $libri_obj = new Libreria();
@@ -110,7 +118,37 @@ class Segreteria{
             // altrimenti invio la lista completa
             return $lista_libri;
         }
+    }
 
+    /**
+     * Restituisce lo storico dei prestiti anche di un unico utente
+     * @param null $utente (facoltativo) ID dell'utente del quale si vuole conoscere lo storico
+     * @return array
+     */
+    public function getStoricoPrestiti($utente=null){
+        $query = "SELECT prestiti.* , libri.titolo , utenti.nome, utenti.cognome
+                FROM libri INNER JOIN prestiti
+                ON prestiti.fk_libro = libri.id INNER JOIN utenti
+                ON prestiti.fk_utente = utenti.id WHERE prestiti.data_riconsegna != '0000-00-00'";
+        if($utente != null){
+            $utente = htmlentities($utente);
+            $query .= "AND prestiti.fk_utente = ".$utente;
+        }
+        $segreteria = $this->db->db_conn->prepare($query);
+        $segreteria->execute();
+        $risultato = array();
+        foreach($segreteria->fetchAll(PDO::FETCH_ASSOC) as $dati){
+            $nome_utente = "";
+            foreach($dati as $key=>$value){
+                $risultato[$dati['id']][$key] = $value;
+            }
+        }
 
+        // Ordinati i risultati genero un array di oggetti Prestito da restituire
+        $lista_prestiti = array();
+        foreach ($risultato as $key=>$obj_array) {
+            $lista_prestiti[] = new Prestito($obj_array);
+        }
+        return $lista_prestiti;
     }
 }

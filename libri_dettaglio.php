@@ -34,7 +34,7 @@ if($_POST) {
     include_once("models/Libro.php");
     $libro = new Libro($_POST);
     $risultato = "";
-    $controllo = $libro->controlloLibro();
+    $controllo = Libro::controlloLibro($libro);
     if ($controllo === true) {
         if ($mode === "modifica") {
             $risultato = $libro->updateLibro();
