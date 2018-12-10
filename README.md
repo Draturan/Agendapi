@@ -35,7 +35,7 @@ Any feedback about this short installation guide will be appreciated!
 A library is mainly composed by three things:
 - Books
 - People who work inside
-- People who want borrow a book or give it back!
+- People who want borrow a book or give it back!<br/>
 in the same way this web application is organized in three sections: Users(Utenti), Books(Libri) and Lendings(Prestiti).
 <img src="https://raw.githubusercontent.com/Draturan/Lapiary/master/assets/homepage.jpg" width="500px" alt="Homepage"/>
 In every section is possible create, modify or delete one of this three sections and manage the Lendings of the Library
