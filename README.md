@@ -41,7 +41,7 @@ in the same way this web application is organized in three sections: Users(Utent
 In every section is possible create, modify or delete one of this three sections and manage the Lendings of the Library
 
 The web application is provided with `RESTful API` documentation that can be easily checked by the link in the footer of the homepage:<br/>
-<img src="https://raw.githubusercontent.com/Draturan/Lapiary/master/assets/apilink.jpg" width="500px" alt="api link"/> <br/
+<img src="https://raw.githubusercontent.com/Draturan/Lapiary/master/assets/apilink.jpg" width="500px" alt="api link"/> <br/>
 a new page with the `Swagger-UI` will open giving the possibility to explore the available API. You can find the YAML file in:
 ```
 ../Lapiary/assets/lapiary.yaml
