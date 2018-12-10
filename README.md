@@ -49,6 +49,9 @@ a new page with the `Swagger-UI` will open giving the possibility to explore the
 
 The Lending section is provided with a list that automatically shows only the lendings that have a relationship with an existing book and a user, furthermore the ongoing lendings are in the top of the list as books aren't returned yet. Adding or modifing a Lending bring on the form section that is provided with queries that shown only available books in that moment.
 
+## What's next
+The goal should be to integrate a QR-code generator to connect quickly and efficently an Android App to the API's that retrieve a user informations about his book lending state, show him old lended books and give him hints and reminder if his landing time is going to expire.
+
 ## Requirements
 A server or a virtual server:
 * Apache
