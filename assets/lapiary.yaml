@@ -1,0 +1,654 @@
+swagger: '2.0'
+info:
+  description: >-
+    Welcome to the Lapiary API Documentation. Here you can find out more about this little RESTful API [project](https://github.com/Draturan/Lapiary). For this sample, you can use the api key `special-key` to test the authorization filters.<br/>
+  version: 1.0.0
+  title: Lapiary
+  termsOfService: 'https://github.com/Draturan/Lapiary/blob/master/LICENSE'
+  contact:
+    email: simone.armadoro@libero.it
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+host: project.it
+basePath: /api/v1
+tags:
+  - name: Utenti
+    description: Operations on the users of the Library
+  - name: Libri
+    description: Operations on the books of the Library
+  - name: Prestiti
+    description: Operations over borrows made in the Library
+paths:
+  /utenti/read.php:
+    get:
+      tags:
+        - Utenti
+      summary: Get all the users
+      description: "Get a list of all the users in the Library"
+      operationId: getAllUtenti
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Utente'
+        '404':
+          description: No users
+      deprecated: false
+  /utenti/read_one.php:
+    get:
+      tags:
+        - Utenti
+      summary: Get a single user passing user id
+      description: "Use the {id} value to pass the single id to get the record"
+      operationId: getUser
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: query
+          description: id of the record you are looking for
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              example:  {
+                          "1": {
+                              "id": 1,
+                              "nome": "Simone",
+                              "cognome": "Armadoro",
+                              "data_di_nascita": "1988-04-13",
+                              "cap": "05100",
+                              "email": "simone.armadoro@libero.it",
+                              "num_telefono": [
+                                  {
+                                      "tipo": "Casa",
+                                      "telefono": "+39 074458887",
+                                      "num_id": "1"
+                                  },
+                                  {
+                                      "tipo": "Ufficio",
+                                      "telefono": "+39 02 1236548",
+                                      "num_id": "2"
+                                  },
+                                  {
+                                      "tipo": "Mare",
+                                      "telefono": "141 474747",
+                                      "num_id": "3"
+                                  }
+                              ]
+                          }
+                        }
+        '404':
+          description: No users found with this id
+      deprecated: false
+  /utenti/create.php:
+    post:
+      tags:
+        - Utenti
+      summary: Add a new user to the Rubric
+      description: ''
+      operationId: addUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User object that needs to be added to the store
+          required: true
+          schema:
+            example:  {
+                        "nome" : "Carlo",
+                        "cognome" : "Seghetti",
+                        "data_di_nascita" : "2018-06-01",
+                        "cap" : "05100",
+                        "email" : "carlo@hotmail.it",
+                        "tipo1" : "Casa",
+                        "telefono1" : "1234321123",
+                        "tipo2" : "",
+                        "telefono2" : "",
+                        "tipo3" : "",
+                        "telefono3" : ""
+                      }
+      responses:
+        '201':
+          description: User created
+        '400':
+          description: Bad request
+        '503':
+          description: Service unavailable
+  /utenti/update.php:
+    put:
+      tags:
+        - Utenti
+      summary: Update an existing user
+      description: ''
+      operationId: updateUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User object that needs to be updated to the store
+          required: true
+          schema:
+            example:  {
+                        "id" : 5,
+                        "nome" : "Marinello",
+                        "cognome" : "Casinari",
+                        "data_di_nascita" : "2018-06-01",
+                        "cap" : "05100",
+                        "email" : "casmarin@gmail.com",
+                        "tipo1" : "",
+                        "telefono1" : "",
+                        "tipo2" : "",
+                        "telefono2" : "",
+                        "tipo3" : "",
+                        "telefono3" : ""
+                      }
+      responses:
+        '200':
+          description: User updated
+        '400':
+          description: Bad request
+        '404':
+          description: User not found
+        '503':
+          description: Service Unavailable
+  /utenti/delete.php:
+    delete:
+      tags:
+        - Utenti
+      summary: Deletes a user
+      description: ''
+      operationId: deleteUser
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User id to delete
+          required: true
+          schema:
+            example:  {
+                        "id" : 2
+                      }
+      responses:
+        '200':
+          description: User deleted
+        '404':
+          description: User not found
+        '503':
+          description: Service unavailable
+  /libri/read.php:
+    get:
+      tags:
+        - Libri
+      summary: Get all the books
+      description: "Get a list of all the books in the Library"
+      operationId: getAllLibri
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Libri'
+        '404':
+          description: No books
+      deprecated: false
+  /libri/read_one.php:
+    get:
+      tags:
+        - Libri
+      summary: Get a single book passing book id
+      description: "Use the {id} value to pass the single id to get the record"
+      operationId: getBook
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: query
+          description: id of the record you are looking for
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Libri'
+        '404':
+          description: No books found with this id
+      deprecated: false
+  /libri/create.php:
+    post:
+      tags:
+        - Libri
+      summary: Add a new book to the Rubric
+      description: ''
+      operationId: addBook
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User object that needs to be added to the store
+          required: true
+          schema:
+            example:  {
+                        "titolo" : "Il Visconte Dimezzato",
+                        "autore" : "Italo Calvino",
+                        "data" : 1952,
+                        "genere" : "Narrativa"
+                      }
+      responses:
+        '201':
+          description: Book created
+        '400':
+          description: Bad request
+        '503':
+          description: Service unavailable
+  /libri/update.php:
+    put:
+      tags:
+        - Libri
+      summary: Update an existing book
+      description: ''
+      operationId: updateBook
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Book object that needs to be updated to the store
+          required: true
+          schema:
+            example: {
+                        "id" : 12,
+                        "titolo" : "Il Visconte Dimezzato",
+                        "autore" : "Italo Calvino",
+                        "data" : 1952,
+                        "genere" : "Narrativa"
+                      }
+      responses:
+        '200':
+          description: Book updated
+        '400':
+          description: Bad request
+        '404':
+          description: Book not found
+        '503':
+          description: Service Unavailable
+  /libri/delete.php:
+    delete:
+      tags:
+        - Libri
+      summary: Deletes a book
+      description: ''
+      operationId: deleteBook
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Book id to delete
+          required: true
+          schema:
+            example:  {
+                        "id" : 2
+                      }
+      responses:
+        '200':
+          description: Book deleted
+        '404':
+          description: Book not found
+        '503':
+          description: Service unavailable
+  /prestiti/read.php:
+    get:
+      tags:
+        - Prestiti
+      summary: Get all the lendings
+      description: "Get a list of all the lendings in the Library"
+      operationId: getAllPrestiti
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              example:  {
+                          "id": 1,
+                          "fk_libro": "1",
+                          "nome_libro": "Il Visconte Dimezzato",
+                          "fk_utente": "6",
+                          "nome_utente": "Carlo Vanzina",
+                          "data_inizio": "2018-11-01",
+                          "data_fine": "2018-12-31",
+                          "data_riconsegna": "0000-00-00"
+                        }
+        '404':
+          description: No lendings
+      deprecated: false
+  /prestiti/read_one.php:
+    get:
+      tags:
+        - Prestiti
+      summary: Get a single lending passing lending id
+      description: "Use the {id} value to pass the single id to get the record"
+      operationId: getUtente
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: query
+          description: id of the record you are looking for
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              example:  {
+                          "id": 1,
+                          "fk_libro": "1",
+                          "nome_libro": "Il Visconte Dimezzato",
+                          "fk_utente": "6",
+                          "nome_utente": "Carlo Vanzina",
+                          "data_inizio": "2018-11-01",
+                          "data_fine": "2018-12-31",
+                          "data_riconsegna": "0000-00-00"
+                        }
+        '404':
+          description: No lendings found with this id
+      deprecated: false
+  /prestiti/create.php:
+    post:
+      tags:
+        - Prestiti
+      summary: Add a new lending to the Rubric
+      description: ''
+      operationId: addLending
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Lending object that needs to be added to the store
+          required: true
+          schema:
+            example:  {
+                        "fk_libro" : 5,
+                        "fk_utente" : 1,
+                        "data_inizio" : "2018-12-04",
+                        "data_fine" : "2019-01-04",
+                        "data_riconsegna" : ""
+                      }
+      responses:
+        '201':
+          description: Lending created
+        '400':
+          description: Bad request
+        '404':
+          description: No lendings OR user OR book found with this id
+        '503':
+          description: Service unavailable
+  /prestiti/update.php:
+    put:
+      tags:
+        - Prestiti
+      summary: Update an existing lending
+      description: ''
+      operationId: updateLending
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Lending object that needs to be updated to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Prestito'
+      responses:
+        '200':
+          description: Lending updated
+        '400':
+          description: Bad request
+        '404':
+          description: No lendings OR user OR book found with this id
+        '503':
+          description: Service Unavailable
+  /prestiti/delete.php:
+    delete:
+      tags:
+        - Prestiti
+      summary: Deletes a lending
+      description: ''
+      operationId: deleteLending
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Book id to delete
+          required: true
+          schema:
+            example:  {
+                        "id" : 10
+                      }
+      responses:
+        '200':
+          description: Lending deleted
+        '404':
+          description: Lending not found
+        '503':
+          description: Service unavailable
+  /prestiti/read_available.php:
+    get:
+      tags:
+        - Libri
+        - Prestiti
+      summary: Get all the available books
+      description: "Get a list of all the lendings in the Library"
+      operationId: getAllAvailableBooks
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              example:  {
+                          "4": {
+                              "id": 4,
+                              "titolo": "Correva l'anno",
+                              "autore": "Bruno Vespa",
+                              "data": "1997",
+                              "genere": "Autobiografia"
+                          }
+                        }
+        '404':
+          description: No lendings
+      deprecated: false
+  /prestiti/read_borrowed.php:
+    get:
+      tags:
+        - Prestiti
+        - Utenti
+      summary: Get all the lendings currently ongoing
+      description: "Use the {id} value to pass the user id and know what is currently lenting,
+                    is not required, but if you don't put nothing it retrieves all the lenting books currently ongoin"
+      operationId: getBorrowed
+      produces:
+        - application/json
+      parameters:
+        - name: id_utente
+          in: query
+          description: id of the user you are looking for
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              example:  {
+                          "id": 1,
+                          "fk_libro": "1",
+                          "nome_libro": "Il Visconte Dimezzato",
+                          "fk_utente": "6",
+                          "nome_utente": "Carlo Vanzina",
+                          "data_inizio": "2018-11-01",
+                          "data_fine": "2018-12-31",
+                          "data_riconsegna": "0000-00-00"
+                        }
+        '404':
+          description: No lendings found with this id
+      deprecated: false
+  /prestiti/read_history.php:
+    get:
+      tags:
+        - Prestiti
+        - Utenti
+      summary: Get all the passed lendings
+      description: "Use the {id} value to pass the user id and know what is his lentings chronology,
+                    it is not required, but if you don't put nothing it retrieves all the passed and ended lenting"
+      operationId: getHistory
+      produces:
+        - application/json
+      parameters:
+        - name: id_utente
+          in: query
+          description: id of the user you are looking for
+          type: integer
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              example:  {
+                            "id": 9,
+                            "fk_libro": "1",
+                            "nome_libro": "Il Visconte Dimezzato",
+                            "fk_utente": "16",
+                            "nome_utente": "Roberto Scardoni",
+                            "data_inizio": "2018-10-12",
+                            "data_fine": "2018-11-12",
+                            "data_riconsegna": "2018-11-15"
+                        }
+        '404':
+          description: No lendings found with this id
+      deprecated: false
+definitions:
+  Utente:
+    type: object
+    required:
+    - nome
+    - cognome
+    - data_di_nascita
+    - cap
+    - email
+    properties:
+      id:
+        type: integer
+        format: int64
+      nome:
+        type: string
+        example: Simone
+      cognome:
+        type: string
+        example: Armadoro
+      data_di_nascita:
+        type: string
+        example: "1998"
+      cap:
+        type: string
+        example: "00100"
+      email:
+        type: string
+        example: test@hotmail.it
+      num_telefono:
+        type: array
+        items:
+          type: array
+          items:
+            type: integer
+    xml:
+      name: utente
+  Libri:
+    type: object
+    required:
+    - titolo
+    - autore
+    - data
+    - genere
+    properties:
+      id:
+        type: integer
+        format: int64
+      titolo:
+        type: string
+        example: Il Visconte Dimezzato
+      autore:
+        type: string
+        example: Italo Calvino
+      data:
+        type: string
+        example: "1952"
+      genere:
+        type: string
+        example: "Narrativa"
+    xml:
+      name: libri
+  Prestito:
+    type: object
+    required:
+    - fk_libro
+    - fk_utente
+    - data_di_inizio
+    - data_di_fine
+    properties:
+      id:
+        type: integer
+        format: int64
+      fk_libro:
+        type: integer
+        example: 1
+      fk_utente:
+        type: integer
+        example: 1
+      data_di_inizio:
+        type: string
+        example: "2018-11-01"
+      data_di_fine:
+        type: string
+        example: "2018-11-01"
+      data_di_riconsegna:
+        type: string
+        example: "2018-11-01"
+    xml:
+      name: prestito

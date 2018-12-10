@@ -47,7 +47,7 @@
             </section>
         </div>
         <footer>
-            <p class="piccolino">Lapiary - 2018</p>
+            <p class="piccolino">Lapiary - 2018 | <a href="assets/swagger-ui/" target="_blank" style="color:inherit;">Api Documentation</a> </p>
         </footer>
     </body>
 </html>

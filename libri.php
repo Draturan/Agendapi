@@ -102,8 +102,7 @@ $lista_libreria = $libreria->getLibreria();
                         <img class="libro-img" src="img/book.png" />
                         <p><?= $libro->titolo ?></p>
                         <p><?= $libro->autore ?></p>
-                        <?php $data = date("j F Y", strtotime($libro->data)) ?>
-                        <p><?=  $data ?></p>
+                        <p><?=  $libro->data ?></p>
                         <p><?=  $libro->genere ?></p>
                         <a href="libri_dettaglio.php?mode=modifica&id=<?= $libro->id ?>"><img class="edit_img" src="img/edit.png" /></a>
                         <a href="#" onclick="mostra_popup('<?= $libro->id ?>','<?= $libro->titolo ?>','<?= $libro->autore ?>')"><img class="del_img" src="img/delete.png" /></a>

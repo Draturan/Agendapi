@@ -13,7 +13,7 @@ class DbConnection{
     private $conn_config = array(
         'driver' => 'mysql',
         'host' => 'localhost',
-        'dbname' => 'miningful_lapiary',
+        'dbname' => 'lapiary',
         'charset' => 'utf8mb4',
         'username' => 'root',
         'password' => '',
